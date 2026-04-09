@@ -1,11 +1,15 @@
-import { PrismaClient } from "@prisma/client";
+import { Request, Response } from "express";
 import { IUserRegister, UserRegisterSchema } from "../schema/users.schema";
 import { generateToken } from "../config/generate-token";
 import { hashedPassword } from "../config/hashed-password";
 
-const prisma = new PrismaClient({});
+import "dotenv/config";
+import { PrismaClient } from "@prisma/client";
+import { sensitiveHeaders } from "node:http2";
 
-export const register = async (req: any, res: any) => {
+const prisma = new PrismaClient();
+
+export const register = async (req: Request, res: Response) => {
   try {
     const validation = UserRegisterSchema.safeParse(req.body);
 
